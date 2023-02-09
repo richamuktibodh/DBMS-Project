@@ -26,7 +26,9 @@ drop Table if EXISTS User;
 create Table User(
     -- user id, name(first name, middle name, last name), address, email, phone, dob, age(derived), prime user(boolean) 
     int user_id(8) NOT NULL,
-
+    varchar first_name(20) NOT NULL,
+    varchar middle_name(20) NULL,
+    varchar last_name(20) NOT NULL,
     varchar address(100) NOT NULL,
     varchar email(50) NOT NULL,
     int phone(10) NOT NULL,
