@@ -4,14 +4,14 @@ use final;
 drop Table if EXISTS Category;
 create Table Category(
     varchar(20) name NOT NULL, 
-    int category_id(8) NOT NULL,
+    int category_id(8) NOT NULL AUTO_INCREMENT,
     varchar(256) description,
     PRIMARY KEY (category_id)
 );  
 
 drop Table if EXISTS Product;
 create Table Product(
-    int product_id(8) NOT NULL,
+    int product_id(8) NOT NULL AUTO_INCREMENT,
     int price(10) NOT NULL,
     varchar(20) name NOT NULL,
     int quantity(8) NOT NULL, 
@@ -25,7 +25,7 @@ create Table Product(
 drop Table if EXISTS User;
 create Table User(
     -- user id, name(first name, middle name, last name), address, email, phone, dob, age(derived), prime user(boolean) 
-    int user_id(8) NOT NULL,
+    int user_id(8) NOT NULL AUTO_INCREMENT
     varchar first_name(20) NOT NULL,
     varchar middle_name(20) NULL,
     varchar last_name(20) NOT NULL,
@@ -41,10 +41,21 @@ create Table User(
 
 drop Table if EXiSTS Payments;
 create Table Payments(
-    int Payment_ID(8) NOT NULL,
+    int Payment_ID(8) NOT NULL AUTO_INCREMENT,
     DATETIME Payment_Date NOT NULL,
     int amount(8) NOT NULL,
     int user_id(8) NOT NULL,
     PRIMARY KEY (Payment_ID),
+    FOREIGN KEY (user_id) REFERENCES User(user_id)
+);
+
+drop Table if EXISTS Cart;
+create Table Cart(
+    int cart_id(8) NOT NULL,
+    int product_id(8) NOT NULL,
+    int quantity(8) NOT NULL,
+    int user_id(8) NOT NULL,
+    PRIMARY KEY (cart_id),
+    FOREIGN KEY (product_id) REFERENCES Product(product_id),
     FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
