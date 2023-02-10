@@ -6,7 +6,7 @@ use final;
 drop Table if EXISTS Cart;
 drop Table if EXISTS Product;
 drop Table if EXISTS Category;
-drop Table if EXiSTS Payments;
+drop Table if EXISTS Payments;
 drop Table if EXISTS User;
 create Table User(
     -- user id, name(first name, middle name, last name), address, email, phone, dob, age(derived), prime user(boolean) 
@@ -376,3 +376,41 @@ insert into Product (product_id, price, name, description, category_id, cart_id,
 insert into Product (product_id, price, name, description, category_id, cart_id, status) values (98, '74099391', 'venenatis', 'habitasse platea dictumst maecenas', 1, null, 'In stock');
 insert into Product (product_id, price, name, description, category_id, cart_id, status) values (99, '83452991', 'justo', 'convallis nunc proin at turpis a pede posuere nonummy integer non velit donec diam neque', 7, null, 'Out of stock');
 insert into Product (product_id, price, name, description, category_id, cart_id, status) values (100, '19882555', 'semper', 'ipsum integer a nibh in quis', 5, null, 'In stock');
+
+-- payments
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (1, '1971-04-13', '9224', 16);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (2, '2004-04-14', '4823', 96);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (3, '2012-04-04', '3942', 22);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (4, '2005-10-20', '3204', 14);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (5, '1976-02-08', '5556', 67);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (6, '1984-06-11', '2876', 49);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (7, '2000-01-14', '5898', 99);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (8, '1999-10-18', '4770', 2);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (9, '1983-10-16', '7697', 61);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (10, '1997-08-08', '7396', 36);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (11, '2006-04-09', '420', 36);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (12, '1989-02-02', '9903', 39);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (13, '1981-02-28', '9999', 33);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (14, '2007-05-07', '1957', 56);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (15, '1970-12-21', '4365', 62);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (16, '1970-09-29', '2853', 41);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (17, '2017-04-24', '5149', 11);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (18, '2007-10-13', '558', 10);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (19, '1979-05-25', '8642', 6);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (20, '1994-01-17', '5965', 12);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (21, '2018-01-11', '3179', 70);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (22, '2021-09-26', '3345', 40);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (23, '2014-03-17', '5195', 66);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (24, '1991-03-12', '2606', 82);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (25, '2013-01-11', '5760', 70);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (26, '1976-11-14', '882', 37);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (27, '1973-09-23', '6453', 84);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (28, '1981-05-14', '73804', 8);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (29, '1995-05-04', '4088', 64);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (30, '2011-08-24', '8772', 67);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (31, '1984-12-10', '907', 98);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (32, '1988-08-30', '4690', 35);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (33, '1978-12-03', '7621', 81);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (34, '2014-08-30', '1555', 24);
+insert into Payments (Payment_ID, Payment_Date, amount, user_id) values (35, '1989-12-10', '356', 10);
+
