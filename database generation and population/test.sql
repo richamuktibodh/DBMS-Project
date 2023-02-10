@@ -1,4 +1,5 @@
--- create DATABASE final;
+drop DATABASE if EXISTS final;
+create DATABASE final;
 use final;
 
 
@@ -17,27 +18,34 @@ create Table User(
     email varchar(50) NOT NULL,
     phone long NOT NULL,
     dob DATETIME NOT NULL,
-    -- derive age from current date - dob
-    -- age int(3) NOT NULL,
     prime_user boolean NOT NULL DEFAULT FALSE,
     PRIMARY KEY (user_id)
 );
 create Table Category(
     name varchar(20) NOT NULL, 
-    category_id int(8) NOT NULL ,
+    category_id int(8) NOT NULL AUTO_INCREMENT,
     description varchar(256) NOT NULL,
     PRIMARY KEY (category_id)
 );  
+create Table Cart(
+    cart_id int(8) NOT NULL AUTO_INCREMENT,
+    -- quantity int(8) NOT NULL,
+    user_id int(8) NOT NULL,
+    PRIMARY KEY (cart_id),
+    FOREIGN KEY (user_id) REFERENCES User(user_id)
+);
 create Table Product(
     product_id int(8) NOT NULL AUTO_INCREMENT,
     price int(10) NOT NULL,
     name varchar(20) NOT NULL,
-    quantity int(8) NOT NULL, 
+    -- quantity int(8) NOT NULL, 
     description varchar(256),
     category_id int(8) NOT NULL,
+    cart_id int(8) NULL,
     status varchar(20) NOT NULL,
     PRIMARY KEY (product_id),
-    FOREIGN KEY (category_id) REFERENCES Category(category_id)
+    FOREIGN KEY (category_id) REFERENCES Category(category_id),
+    FOREIGN KEY (cart_id) REFERENCES Cart(cart_id)
 );
 
 create Table Payments(
@@ -46,15 +54,6 @@ create Table Payments(
     amount int(8) NOT NULL,
     user_id int(8) NOT NULL,
     PRIMARY KEY (Payment_ID),
-    FOREIGN KEY (user_id) REFERENCES User(user_id)
-);
-create Table Cart(
-    cart_id int(8) NOT NULL,
-    product_id int(8) NOT NULL,
-    quantity int(8) NOT NULL,
-    user_id int(8) NOT NULL,
-    PRIMARY KEY (cart_id),
-    FOREIGN KEY (product_id) REFERENCES Product(product_id),
     FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 
@@ -160,3 +159,220 @@ insert into User (user_id, first_name, middle_name, last_name, address, email, p
 insert into User (user_id, first_name, middle_name, last_name, address, email, phone, dob, prime_user) values (99, 'Wendeline', null, 'Nelthropp', '9468 Charing Cross Court', 'anelthropp2q@fc2.com', '9749650078', '1976-04-15', true);
 insert into User (user_id, first_name, middle_name, last_name, address, email, phone, dob, prime_user) values (100, 'Howey', null, 'O''Gorman', '76889 Drewry Alley', 'aogorman2r@networksolutions.com', '3996739171', '1966-04-25', true);
 -- # Rows:
+
+
+-- categories
+insert into Category (category_id, name, description) values (1, 'electronics', 'libero ut massa volutpat convallis morbi odio odio elementum eu interdum eu tincidunt in leo maecenas pulvinar lobortis est');
+insert into Category (category_id, name, description) values (2, 'books', 'integer pede justo lacinia eget tincidunt eget tempus vel pede morbi porttitor');
+insert into Category (category_id, name, description) values (3, 'clothes', 'orci luctus et ultrices posuere cubilia curae nulla dapibus dolor vel est donec odio');
+insert into Category (category_id, name, description) values (4, 'accessories', 'leo odio condimentum id luctus nec molestie sed justo pellentesque viverra pede ac diam cras pellentesque volutpat dui maecenas tristique');
+insert into Category (category_id, name, description) values (5, 'footwear', 'quis odio consequat varius integer ac leo pellentesque ultrices mattis odio donec vitae nisi nam ultrices libero');
+insert into Category (category_id, name, description) values (6, 'jewelry', 'nisl duis bibendum felis sed interdum venenatis turpis enim blandit mi in porttitor pede justo eu massa donec dapibus');
+insert into Category (category_id, name, description) values (7, 'toys', 'nisi volutpat eleifend donec ut dolor morbi vel lectus in quam fringilla rhoncus mauris enim leo rhoncus sed vestibulum sit amet');
+insert into Category (category_id, name, description) values (8, 'sports', 'nisi at nibh in hac habitasse platea dictumst aliquam augue quam sollicitudin vitae consectetuer eget rutrum at lorem integer tincidunt');
+insert into Category (category_id, name, description) values (9, 'music', 'nisi nam ultrices libero non mattis pulvinar nulla pede ullamcorper augue a suscipit nulla elit ac nulla sed vel enim sit');
+
+-- cart
+insert into cart (cart_id, user_id) values (1, 1);
+insert into cart (cart_id, user_id) values (2, 2);
+insert into cart (cart_id, user_id) values (3, 3);
+insert into cart (cart_id, user_id) values (4, 4);
+insert into cart (cart_id, user_id) values (5, 5);
+insert into cart (cart_id, user_id) values (6, 6);
+insert into cart (cart_id, user_id) values (7, 7);
+insert into cart (cart_id, user_id) values (8, 8);
+insert into cart (cart_id, user_id) values (9, 9);
+insert into cart (cart_id, user_id) values (10, 10);
+insert into cart (cart_id, user_id) values (11, 11);
+insert into cart (cart_id, user_id) values (12, 12);
+insert into cart (cart_id, user_id) values (13, 13);
+insert into cart (cart_id, user_id) values (14, 14);
+insert into cart (cart_id, user_id) values (15, 15);
+insert into cart (cart_id, user_id) values (16, 16);
+insert into cart (cart_id, user_id) values (17, 17);
+insert into cart (cart_id, user_id) values (18, 18);
+insert into cart (cart_id, user_id) values (19, 19);
+insert into cart (cart_id, user_id) values (20, 20);
+insert into cart (cart_id, user_id) values (21, 21);
+insert into cart (cart_id, user_id) values (22, 22);
+insert into cart (cart_id, user_id) values (23, 23);
+insert into cart (cart_id, user_id) values (24, 24);
+insert into cart (cart_id, user_id) values (25, 25);
+insert into cart (cart_id, user_id) values (26, 26);
+insert into cart (cart_id, user_id) values (27, 27);
+insert into cart (cart_id, user_id) values (28, 28);
+insert into cart (cart_id, user_id) values (29, 29);
+insert into cart (cart_id, user_id) values (30, 30);
+insert into cart (cart_id, user_id) values (31, 31);
+insert into cart (cart_id, user_id) values (32, 32);
+insert into cart (cart_id, user_id) values (33, 33);
+insert into cart (cart_id, user_id) values (34, 34);
+insert into cart (cart_id, user_id) values (35, 35);
+insert into cart (cart_id, user_id) values (36, 36);
+insert into cart (cart_id, user_id) values (37, 37);
+insert into cart (cart_id, user_id) values (38, 38);
+insert into cart (cart_id, user_id) values (39, 39);
+insert into cart (cart_id, user_id) values (40, 40);
+insert into cart (cart_id, user_id) values (41, 41);
+insert into cart (cart_id, user_id) values (42, 42);
+insert into cart (cart_id, user_id) values (43, 43);
+insert into cart (cart_id, user_id) values (44, 44);
+insert into cart (cart_id, user_id) values (45, 45);
+insert into cart (cart_id, user_id) values (46, 46);
+insert into cart (cart_id, user_id) values (47, 47);
+insert into cart (cart_id, user_id) values (48, 48);
+insert into cart (cart_id, user_id) values (49, 49);
+insert into cart (cart_id, user_id) values (50, 50);
+insert into cart (cart_id, user_id) values (51, 51);
+insert into cart (cart_id, user_id) values (52, 52);
+insert into cart (cart_id, user_id) values (53, 53);
+insert into cart (cart_id, user_id) values (54, 54);
+insert into cart (cart_id, user_id) values (55, 55);
+insert into cart (cart_id, user_id) values (56, 56);
+insert into cart (cart_id, user_id) values (57, 57);
+insert into cart (cart_id, user_id) values (58, 58);
+insert into cart (cart_id, user_id) values (59, 59);
+insert into cart (cart_id, user_id) values (60, 60);
+insert into cart (cart_id, user_id) values (61, 61);
+insert into cart (cart_id, user_id) values (62, 62);
+insert into cart (cart_id, user_id) values (63, 63);
+insert into cart (cart_id, user_id) values (64, 64);
+insert into cart (cart_id, user_id) values (65, 65);
+insert into cart (cart_id, user_id) values (66, 66);
+insert into cart (cart_id, user_id) values (67, 67);
+insert into cart (cart_id, user_id) values (68, 68);
+insert into cart (cart_id, user_id) values (69, 69);
+insert into cart (cart_id, user_id) values (70, 70);
+insert into cart (cart_id, user_id) values (71, 71);
+insert into cart (cart_id, user_id) values (72, 72);
+insert into cart (cart_id, user_id) values (73, 73);
+insert into cart (cart_id, user_id) values (74, 74);
+insert into cart (cart_id, user_id) values (75, 75);
+insert into cart (cart_id, user_id) values (76, 76);
+insert into cart (cart_id, user_id) values (77, 77);
+insert into cart (cart_id, user_id) values (78, 78);
+insert into cart (cart_id, user_id) values (79, 79);
+insert into cart (cart_id, user_id) values (80, 80);
+insert into cart (cart_id, user_id) values (81, 81);
+insert into cart (cart_id, user_id) values (82, 82);
+insert into cart (cart_id, user_id) values (83, 83);
+insert into cart (cart_id, user_id) values (84, 84);
+insert into cart (cart_id, user_id) values (85, 85);
+insert into cart (cart_id, user_id) values (86, 86);
+insert into cart (cart_id, user_id) values (87, 87);
+insert into cart (cart_id, user_id) values (88, 88);
+insert into cart (cart_id, user_id) values (89, 89);
+insert into cart (cart_id, user_id) values (90, 90);
+insert into cart (cart_id, user_id) values (91, 91);
+insert into cart (cart_id, user_id) values (92, 92);
+insert into cart (cart_id, user_id) values (93, 93);
+insert into cart (cart_id, user_id) values (94, 94);
+insert into cart (cart_id, user_id) values (95, 95);
+insert into cart (cart_id, user_id) values (96, 96);
+insert into cart (cart_id, user_id) values (97, 97);
+insert into cart (cart_id, user_id) values (98, 98);
+insert into cart (cart_id, user_id) values (99, 99);
+insert into cart (cart_id, user_id) values (100, 100);
+
+
+-- products
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (1, '84356923', 'sit', 'diam', 4, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (2, '93528280', 'mollis', 'ultrices enim lorem ipsum', 9, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (3, '70195863', 'potenti', 'fusce consequat nulla nisl nunc nisl duis bibendum felis sed', 3, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (4, '15528536', 'nibh', 'aliquam convallis nunc proin at turpis a pede posuere nonummy integer non velit donec diam neque vestibulum', 6, 22, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (5, '48676712', 'quis', 'vel est donec odio justo sollicitudin ut suscipit a feugiat et eros vestibulum ac est lacinia nisi venenatis tristique', 7, 35, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (6, '16078427', 'orci', 'dis parturient', 2, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (7, '15708538', 'interdum', 'mi integer ac neque duis bibendum', 2, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (8, '25464920', 'risus', 'congue', 8, 90, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (9, '66017912', 'quis', 'hac habitasse platea dictumst maecenas ut massa quis augue luctus tincidunt nulla mollis molestie lorem quisque ut', 5, 95, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (10, '65224010', 'ut', 'rutrum neque aenean', 4, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (11, '56453034', 'dignissim', 'ante vel ipsum praesent blandit lacinia erat vestibulum sed magna at nunc', 1, 69, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (12, '09668131', 'tempus', 'morbi non lectus aliquam sit amet diam in magna bibendum imperdiet nullam orci pede venenatis non sodales sed', 3, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (13, '46468700', 'quam', 'faucibus orci luctus et ultrices posuere cubilia curae mauris viverra diam vitae quam suspendisse potenti nullam', 4, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (14, '43501460', 'interdum', 'enim lorem ipsum dolor sit amet consectetuer adipiscing elit proin interdum mauris non ligula', 2, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (15, '71582440', 'phasellus', 'eros elementum pellentesque quisque porta volutpat erat quisque', 8, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (16, '24856585', 'odio', 'velit vivamus vel nulla eget eros elementum pellentesque quisque porta volutpat erat quisque erat eros viverra eget congue eget semper', 8, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (17, '19432091', 'fusce', 'varius integer ac leo pellentesque ultrices mattis odio donec vitae nisi', 7, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (18, '70281933', 'lacinia', 'odio donec', 6, 3, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (19, '68563971', 'cras', 'mattis nibh ligula nec sem duis aliquam convallis nunc proin at turpis a pede', 9, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (20, '72642863', 'adipiscing', 'morbi quis tortor id nulla ultrices aliquet maecenas leo odio condimentum', 7, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (21, '56858050', 'interdum', 'vestibulum rutrum rutrum neque aenean auctor gravida sem praesent id massa id nisl venenatis lacinia aenean sit amet justo morbi', 3, 63, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (22, '30557119', 'et', 'non mi integer ac neque duis bibendum morbi non', 5, 42, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (23, '84282916', 'lorem', 'mauris lacinia sapien quis libero nullam sit amet turpis elementum ligula vehicula', 2, 34, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (24, '96284683', 'sed', 'enim lorem ipsum dolor sit amet consectetuer adipiscing elit proin interdum mauris non', 5, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (25, '89139755', 'vivamus', 'felis sed interdum venenatis turpis enim blandit mi in porttitor pede justo eu massa donec dapibus duis at', 4, 89, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (26, '10983331', 'maecenas', 'ipsum primis in faucibus orci luctus et ultrices posuere', 1, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (27, '88780233', 'consequat', 'venenatis tristique fusce congue diam id ornare imperdiet sapien urna pretium nisl ut volutpat sapien arcu sed augue aliquam erat', 4, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (28, '35318826', 'vestibulum', 'in ante vestibulum ante ipsum primis in', 8, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (29, '97134777', 'rutrum', 'sociis natoque penatibus et magnis dis', 5, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (30, '48939937', 'nam', 'convallis morbi odio odio elementum', 8, 55, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (31, '87065410', 'erat', 'ut rhoncus aliquet pulvinar sed nisl nunc rhoncus dui', 7, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (32, '35246600', 'nam', 'felis fusce posuere felis sed lacus morbi sem mauris laoreet ut rhoncus', 8, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (33, '16658972', 'fusce', 'est', 9, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (34, '13564765', 'ante', 'donec vitae', 1, 90, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (35, '66008016', 'at', 'sodales', 2, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (36, '45126619', 'id', 'ultrices libero non mattis pulvinar nulla pede ullamcorper augue a suscipit nulla elit ac nulla sed vel enim sit amet', 9, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (37, '53707392', 'nulla', 'potenti in eleifend quam a odio', 8, 35, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (38, '55266241', 'consequat', 'nibh in quis justo maecenas rhoncus aliquam lacus morbi quis tortor id nulla ultrices aliquet maecenas leo odio condimentum', 3, 66, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (39, '17905634', 'in', 'id pretium iaculis diam erat fermentum justo nec condimentum neque sapien placerat ante nulla justo', 9, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (40, '28176814', 'pharetra', 'at feugiat non pretium quis lectus suspendisse potenti', 5, 95, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (41, '58423793', 'dui', 'ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae mauris viverra diam vitae quam', 8, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (42, '52212666', 'sit', 'sit amet consectetuer adipiscing elit proin interdum mauris non ligula pellentesque ultrices phasellus', 5, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (43, '69274149', 'odio', 'eros viverra eget congue eget semper rutrum nulla nunc purus phasellus in', 5, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (44, '82316804', 'sem', 'eget tincidunt eget tempus vel pede morbi porttitor lorem id ligula suspendisse', 7, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (45, '68936202', 'ultricies', 'integer ac leo pellentesque ultrices mattis odio donec vitae', 2, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (46, '88395235', 'porta', 'nulla neque', 8, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (47, '88429899', 'leo', 'venenatis turpis enim blandit mi in porttitor pede justo', 6, 72, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (48, '65807048', 'nec', 'pellentesque quisque porta', 9, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (49, '38430167', 'congue', 'congue vivamus metus arcu adipiscing molestie hendrerit', 3, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (50, '19805270', 'libero', 'ante ipsum', 2, 74, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (51, '90292335', 'est', 'non mi integer ac neque duis bibendum morbi non', 8, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (52, '77078281', 'ut', 'parturient montes nascetur ridiculus mus', 8, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (53, '19996199', 'feugiat', 'sem praesent id massa id nisl venenatis lacinia aenean sit amet justo', 7, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (54, '79270329', 'sed', 'ipsum ac tellus semper interdum mauris ullamcorper purus sit amet nulla quisque arcu', 1, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (55, '72139646', 'convallis', 'in quis justo maecenas rhoncus aliquam lacus morbi quis tortor id nulla ultrices', 1, 8, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (56, '34117184', 'condimentum', 'convallis morbi odio odio elementum eu interdum eu tincidunt in leo maecenas pulvinar lobortis', 3, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (57, '08332094', 'fusce', 'lacus curabitur at ipsum', 6, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (58, '33948497', 'ipsum', 'varius nulla facilisi cras non velit nec', 9, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (59, '84450560', 'quam', 'cubilia curae donec pharetra magna vestibulum aliquet', 6, 38, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (60, '53771966', 'donec', 'et', 6, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (61, '60451672', 'sem', 'metus vitae ipsum aliquam non mauris morbi non lectus aliquam sit amet', 4, 94, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (62, '47813296', 'in', 'ridiculus mus vivamus vestibulum sagittis sapien', 8, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (63, '19913209', 'tortor', 'tempor convallis', 3, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (64, '94196964', 'quis', 'augue vestibulum rutrum rutrum neque aenean auctor gravida sem praesent id massa id nisl venenatis', 1, 85, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (65, '61336530', 'lorem', 'justo maecenas rhoncus aliquam lacus morbi quis tortor id nulla ultrices', 9, 55, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (66, '57081610', 'id', 'fringilla rhoncus mauris enim leo rhoncus sed vestibulum sit amet cursus id turpis', 4, 37, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (67, '20243491', 'quam', 'dui vel nisl duis ac nibh fusce lacus purus aliquet at feugiat non pretium quis', 5, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (68, '14373672', 'pulvinar', 'venenatis non sodales sed tincidunt eu felis fusce posuere felis', 9, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (69, '56703044', 'adipiscing', 'consequat ut nulla sed accumsan felis ut at dolor quis', 9, 89, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (70, '79005310', 'in', 'ut tellus nulla ut erat id mauris vulputate elementum nullam varius nulla facilisi cras non velit nec nisi vulputate', 7, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (71, '77296082', 'nam', 'mi in porttitor pede justo eu massa donec', 6, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (72, '15494090', 'ac', 'aliquam convallis nunc proin at turpis a pede posuere nonummy integer non velit donec diam neque', 6, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (73, '28705280', 'ac', 'ante vestibulum ante ipsum primis', 7, 1, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (74, '60026192', 'non', 'mus vivamus vestibulum sagittis sapien cum sociis natoque penatibus', 3, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (75, '99404514', 'nulla', 'eget tincidunt eget tempus vel pede morbi porttitor lorem id ligula suspendisse ornare consequat lectus in est risus auctor', 1, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (76, '38066173', 'magnis', 'vel nisl duis ac nibh fusce lacus purus aliquet at feugiat', 8, 63, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (77, '65328554', 'dictumst', 'turpis eget elit', 8, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (78, '82114326', 'est', 'adipiscing lorem vitae mattis nibh ligula nec sem duis', 2, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (79, '25128681', 'diam', 'vel augue vestibulum rutrum rutrum neque aenean auctor', 2, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (80, '46071810', 'enim', 'cubilia curae donec pharetra magna vestibulum aliquet ultrices erat tortor sollicitudin mi sit amet lobortis sapien sapien non mi integer', 2, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (81, '46638444', 'vestibulum', 'ac neque duis bibendum morbi non quam nec dui luctus', 9, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (82, '70336081', 'aliquet', 'congue risus semper porta volutpat quam pede lobortis ligula sit', 6, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (83, '73166285', 'donec', 'ac nulla sed vel enim sit amet', 1, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (84, '46937791', 'semper', 'eget rutrum at lorem integer tincidunt ante vel ipsum praesent', 8, 24, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (85, '73030006', 'fringilla', 'convallis nulla neque libero convallis eget eleifend luctus ultricies eu nibh', 2, 30, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (86, '04458991', 'turpis', 'porta volutpat quam pede lobortis ligula sit amet eleifend pede libero quis orci nullam molestie', 8, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (87, '97667544', 'tortor', 'justo sit amet sapien dignissim vestibulum vestibulum ante ipsum primis in faucibus orci luctus et', 5, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (88, '20921306', 'id', 'eleifend luctus ultricies eu nibh quisque id justo', 2, 12, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (89, '92048082', 'parturient', 'porta volutpat erat quisque erat eros', 4, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (90, '75051936', 'purus', 'massa volutpat convallis', 5, 92, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (91, '89195888', 'sapien', 'pede venenatis non sodales', 2, 13, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (92, '57665235', 'lacus', 'libero ut massa volutpat convallis morbi odio odio elementum eu interdum', 3, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (93, '79579571', 'nunc', 'ultrices posuere cubilia curae mauris viverra diam vitae quam', 5, 1, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (94, '32912839', 'enim', 'at lorem integer tincidunt ante vel ipsum praesent', 4, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (95, '16334083', 'integer', 'enim in tempor turpis nec euismod scelerisque quam turpis adipiscing lorem vitae mattis', 3, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (96, '47152750', 'convallis', 'diam id ornare imperdiet sapien urna pretium nisl ut volutpat sapien arcu sed augue aliquam erat volutpat in congue', 7, 23, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (97, '20223164', 'semper', 'rutrum neque aenean auctor gravida sem praesent id massa id nisl', 6, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (98, '74099391', 'venenatis', 'habitasse platea dictumst maecenas', 1, null, 'In stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (99, '83452991', 'justo', 'convallis nunc proin at turpis a pede posuere nonummy integer non velit donec diam neque', 7, null, 'Out of stock');
+insert into Product (product_id, price, name, description, category_id, cart_id, status) values (100, '19882555', 'semper', 'ipsum integer a nibh in quis', 5, null, 'In stock');
