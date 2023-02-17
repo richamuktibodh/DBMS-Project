@@ -7,10 +7,13 @@ WHERE status like "in stock"
 GROUP BY category_id;
 
 -- Query 2:This query returns any payment that the user has made if any and the amount field is less than 0(user name(full name), display payment id, payment date, payment amount )
-SELECT CONCAT(first_name,' ',last_name) as 'name',Payment_ID,Payment_Date, -amount as 'amount'
-FROM User
-INNER JOIN Payments
-ON User.user_id = Payments.user_id 
+SELECT CONCAT(first_name, ' ', last_name) AS 'name', Payment_ID, Payment_Date, -amount AS 'amount'
+FROM (
+    SELECT user_id, first_name, last_name
+    FROM User
+) AS u
+INNER JOIN Payments AS p
+ON u.user_id = p.user_id
 WHERE amount < 0;
 
 -- Query 3:This query returns the total price of the products in the cart and the number of products in the cart
@@ -22,22 +25,27 @@ CASE
     WHEN COUNT(PRODUCT_ID) <> 0 AND PRIME_USER = 0 THEN sum(PRICE) * 1.05
     ELSE 0
 END AS 'Final Price'
-FROM Product, USER
-WHERE user.user_id = product.cart_id
+FROM Product
+INNER JOIN USER
+ON user.user_id = product.cart_id
 GROUP BY product.cart_id;
 
-
 -- Query 4:details of users who have products in cart and the number of products they have 
-SELECT CONCAT(first_name,' ', last_name) as 'Full Name', email, phone, count(product_id) as 'number of products'
-FROM User, Product
-WHERE User.user_id = Product.cart_id
-GROUP BY User.user_id;
+SELECT CONCAT(first_name, ' ', last_name) AS 'Full Name', email, phone, count(product_id) AS 'number of products'
+FROM (
+    SELECT user_id, first_name, last_name, email, phone
+    FROM User
+) AS u, Product AS p
+WHERE u.user_id = p.cart_id
+GROUP BY u.user_id;
+
 
 -- Query 5:Display all the products in stock in category 1 sorted by category id
 SELECT product_id, product.name as 'product name', price, category.name as 'category name'
-FROM Product, Category
+FROM Product
+INNER JOIN Category
+ON product.category_id = category.category_id
 WHERE status like "in stock" 
-AND product.category_id = category.category_id
 ORDER BY Product.category_id;
 
 -- Query 6:Update the status of a product to out of stock
@@ -64,4 +72,8 @@ VALUES (10, 'testing', 'augue neque aenean auctor gravida sem praesent id massa 
 
 -- Query 10:Inserting a new user into the database
 INSERT INTO User (first_name, last_name, email, phone, address, dob, prime_user) 
-VALUES ('liz', 'bien', 'abc@xyz.com', '1234567890', 'bruh street', '1999-01-01', 1);
+VALUES ('liz', 'bien', 'abc@xyz.com', '1234567890', 'bruh street', '1999-01-01', 0);
+
+-- Query 11: Alter Table User to modify an existing column
+ALTER TABLE USER 
+MODIFY COLUMN FIRST_NAME VARCHAR(30) NOT NULL;
