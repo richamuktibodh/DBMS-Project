@@ -1,7 +1,7 @@
 USE final;
 
 -- Query 1:This query returns number of products in every category
-SELECT category_id ,COUNT(product_id) as 'number of products'
+SELECT category_id ,COUNT(product_id)  as 'number of products'
 FROM Product 
 WHERE status like "in stock"
 GROUP BY category_id;
@@ -38,8 +38,6 @@ FROM (
 ) AS u, Product AS p
 WHERE u.user_id = p.cart_id
 GROUP BY u.user_id;
-
-
 -- Query 5:Display all the products in stock in category 1 sorted by category id
 SELECT product_id, product.name as 'product name', price, category.name as 'category name'
 FROM Product
@@ -77,3 +75,7 @@ VALUES ('liz', 'bien', 'abc@xyz.com', '1234567890', 'bruh street', '1999-01-01',
 -- Query 11: Alter Table User to modify an existing column
 ALTER TABLE USER 
 MODIFY COLUMN FIRST_NAME VARCHAR(30) NOT NULL;
+
+
+ select * from payments join sellbuymap on payments.sellbuy = sellbuymap.sellbuy_id;
+ select * from product join statusmapping on product.status_id = statusmapping.status_id;
