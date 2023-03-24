@@ -21,3 +21,5 @@ BEGIN
                  END
     WHERE id = (SELECT id FROM product WHERE user_id = NEW.user_id LIMIT 1);
 END;
+
+-- when user buys something, check if he has enough money in wallet --> deduct amount from wallet --> add transaction to payments --> mark as sold in product table
