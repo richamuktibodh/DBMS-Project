@@ -18,19 +18,23 @@ query4 = "SELECT CONCAT(u.first_name, ' ', u.last_name) AS 'user_name',  MONTH(p
 # queries to check trigger 
 query5 = "insert into payments (payment_id, user_id, amount, sellbuy, payment_date) values (420, 1, 3000, 0, '2020-01-01');"
 query6 = "select * from user where user_id = 1;"
-val = int(input("Enter a number between 1 and 6 to run a query: "))
-if(val == 1):
-    run_Query(query1)
-elif(val == 2):
-    run_Query(query2)
-elif(val == 3):
-    run_Query(query3)
-elif(val == 4):
-    run_Query(query4)
-elif(val == 5):
-    run_Query(query5)
-elif(val == 6):
-    run_Query(query6)
+while True:
+    val = int(input("Enter a number between 1 and 5 to run a query and 6 to break: "))
+    if(val == 1):
+        run_Query(query1)
+    elif(val == 2):
+        run_Query(query2)
+    elif(val == 3):
+        run_Query(query3)
+    elif(val == 4):
+        run_Query(query4)
+    elif(val == 5):
+        run_Query(query5)
+        run_Query(query6)
+    elif(val == 6):
+        break
+    else:
+        print("Invalid input")
 # run_Query(query2)
 # run_Query(query3)
 # run_Query(query4)
