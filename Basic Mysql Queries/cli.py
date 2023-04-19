@@ -1,5 +1,16 @@
-import main
 query = ""
+import mysql.connector
+import datetime
+
+def Exec_Query(query):
+    cnx = mysql.connector.connect(user='root',password = 'tiger', database='final')
+    cursor = cnx.cursor()
+    cursor.execute(query)
+    ret = cursor.fetchall()
+    cnx.commit()
+    cursor.close()
+    return ret
+
 def PrintLine():
     print("-------------------------------------------------------------------------------------------------------------------")
 def MainMenu():
@@ -77,5 +88,5 @@ def UserMenu2(userId):
 
 def main():
     MainMenu()
-if __name__ == "__main__":
-    MainMenu()
+
+MainMenu()
