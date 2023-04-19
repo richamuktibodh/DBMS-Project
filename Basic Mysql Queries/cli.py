@@ -1,11 +1,14 @@
-query = ""
 import mysql.connector
 import datetime
 
 def Exec_Query(query):
     cnx = mysql.connector.connect(user='root',password = 'tiger', database='final')
     cursor = cnx.cursor()
+    # try:
     cursor.execute(query)
+    # except:
+    #     print("Invalid query")
+    #     return
     ret = cursor.fetchall()
     cnx.commit()
     cursor.close()
@@ -13,7 +16,11 @@ def Exec_Query(query):
         return
     else:
         for i in ret:
-            print(i)
+            for j in i:
+                j = str(j)
+                print(j, end = "")
+                print((20 - len(j)) * " ", end = "|")
+            print()
 
 def PrintLine():
     print()
@@ -25,8 +32,9 @@ def MainMenu():
     PrintLine()
     choice = int(input("Enter your choice: "))
     if(choice == 1):
-        query = ""
-        Exec_Query(query)
+        print("       Name         |      Category      |        Price       |")
+        PrintLine()
+        Exec_Query("select product.name, cat.name, product.price from product join category cat on product.category_id = cat.category_id where status_id = 1;")
     elif(choice == 2):
         UserMenu1()
     elif(choice == 3):
@@ -64,25 +72,48 @@ def UserMenu2(userId):
     choice = int(input("Enter your choice: "))
     PrintLine()
     if(choice == 1):
-        main.run_Query(query)
+        print("       Name         |      Category      |        Price       |")
+        PrintLine()
+        Exec_Query("select product.name, cat.name, product.price from product join category cat on product.category_id = cat.category_id where status_id = 1;")
     elif(choice == 2):
-        main.run_Query(query)
+        print("     Payment_id     |    Payment_date    |       Amount       |     Sell/Buy       |")
+        PrintLine()
+        Exec_Query("select payment_id, payment_date, amount, sellbuymap.sellbuy from sellbuymap inner join payments on sellbuymap.sellbuy_id = payments.sellbuy where user_id = " + str(userId) + ";")
     elif(choice == 3):
-        main.run_Query(query)
+        print("      Balance       |")
+        PrintLine()
+        Exec_Query("select wallet from user where user_id = " + str(userId) + ";")
     elif(choice == 4):
-        main.run_Query(query)
+        PrintLine()    
     elif(choice == 5):
-        main.run_Query(query)
+        print("     Product_id     |        name        |       Price        |")
+        PrintLine()
+        Exec_Query("select product_id, name, price from product where status_id = 3 AND user_id = " + str(userId) + ";")
     elif(choice == 6):
         main.run_Query(query)
     elif(choice == 7):
-        main.run_Query(query)
+        price = int(input("Enter the price of the product: "))
+        name = input("Enter the name of the product: ")
+        description = input("Enter the description of the product: ")
+        print("Choose a category for the product: ")
+        Exec_Query("select name, category_id from category;")
+        category_id = int(input("Enter the category id: "))
+        Exec_Query("INSERT INTO Product (price, name, description, category_id, user_id, status_id) values (" + str(price) + ", '" + name + "', '" + description + "', " + str(category_id) + ", " + str(userId) + ", 1);")
+        print("Product added successfully")
     elif(choice == 8):
         main.run_Query(query)
     elif(choice == 9):
-        main.run_Query(query)
+        print("UserID | First_Name | Middle_Name | Last_Name | Address | Email | Phone | DOB | Prime_User | Wallet |")
+        PrintLine()
+        Exec_Query("select * from user where user_id = 1;")
+
     elif(choice == 10):
-        main.run_Query(query)
+        first_name = input("Enter your first name: ")
+        email = input("Enter your email: ")
+        phone = int(input("Enter your phone number: "))
+        address = input("Enter your address: ")
+        wallet = input("Enter your wallet balance: ")
+        Exec_Query("update user set first_name = '" + first_name + "', email = '" + email + "', phone = '" + str(phone) + "', address = '" + address + "', wallet = '" + wallet + "' where user_id = " + str(userId) + ";")
     elif(choice == 11):
         MainMenu()
     else:
@@ -94,3 +125,11 @@ def UserMenu2(userId):
 
 def main():
     MainMenu()
+
+'''Stuff that's left:
+making a password 🤡
+confirming purchases
+transactions
+signin/login
+add seller's id in product
+'''
