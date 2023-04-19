@@ -9,17 +9,24 @@ def Exec_Query(query):
     ret = cursor.fetchall()
     cnx.commit()
     cursor.close()
-    return ret
+    if(ret == []):
+        return
+    else:
+        for i in ret:
+            print(i)
 
 def PrintLine():
+    print()
     print("-------------------------------------------------------------------------------------------------------------------")
+    print()
+
 def MainMenu():
     print("Welcome to the Mysql Query Tool\n" + "Please select an option from the menu below\n" + "1. List available products\n"+ "2. Enter as user\n" + "3. Exit\n")
     PrintLine()
     choice = int(input("Enter your choice: "))
     if(choice == 1):
-        main.run_Query(query)
-        MainMenu()
+        query = ""
+        Exec_Query(query)
     elif(choice == 2):
         UserMenu1()
     elif(choice == 3):
@@ -81,12 +88,9 @@ def UserMenu2(userId):
     else:
         print("Invalid choice")
         PrintLine()
-        PrintLine()
         UserMenu2(userId)
         return 0
     UserMenu2(userId)
 
 def main():
     MainMenu()
-
-MainMenu()
