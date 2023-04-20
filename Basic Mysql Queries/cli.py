@@ -1,33 +1,35 @@
 import mysql.connector
 import datetime
 
-def Exec_Query(query):
+def Exec_Query(query, mode = 0):
     cnx = mysql.connector.connect(user='root',password = 'tiger', database='final')
     cursor = cnx.cursor()
-    # try:
-    cursor.execute(query)
-    # except:
-    #     print("Invalid query")
-    #     return
+    try:
+        cursor.execute(query)
+    except:
+        print("Invalid query")
+        return
     ret = cursor.fetchall()
     cnx.commit()
     cursor.close()
-    if(ret == []):
-        return
+    if mode == 0:
+        if(ret == []):
+            return
+        else:
+            for i in ret:
+                for j in i:
+                    j = str(j)
+                    print(j, end = "")
+                    print((20 - len(j)) * " ", end = "|")
+                print()
     else:
-        for i in ret:
-            for j in i:
-                j = str(j)
-                print(j, end = "")
-                print((20 - len(j)) * " ", end = "|")
-            print()
-
+        return ret
 def PrintLine():
     print()
     print("-------------------------------------------------------------------------------------------------------------------")
     print()
 
-def MainMenu():
+def MainMenu(): 
     print("Welcome to the Mysql Query Tool\n" + "Please select an option from the menu below\n" + "1. List available products\n"+ "2. Enter as user\n" + "3. Exit\n")
     PrintLine()
     choice = int(input("Enter your choice: "))
@@ -35,21 +37,85 @@ def MainMenu():
         print("       Name         |      Category      |        Price       |")
         PrintLine()
         Exec_Query("select product.name, cat.name, product.price from product join category cat on product.category_id = cat.category_id where status_id = 1;")
+        MainMenu()
     elif(choice == 2):
         UserMenu1()
     elif(choice == 3):
         exit()
     else:
         print("Invalid choice")
+        MainMenu()
 def UserMenu1():
     PrintLine()
     print("1. Signup\n"+"2. Login\n" + "3. Back\n") 
     PrintLine()
     x = int(input("Enter your choice: "))
     if(x == 1):
-        UserMenu2(userId)
+        first_name = input("Enter your first name: ")
+        if(first_name == ""):
+            print("First name cannot be empty")
+            UserMenu1()
+            return 0
+        middle_name = input("Enter your middle name: ")
+        last_name = input("Enter your last name: ")
+        if(last_name == ""):
+            print("Last name cannot be empty")
+            UserMenu1()
+            return 0
+        address = input("Enter your address: ")
+        if(address == ""):
+            print("Address cannot be empty")
+            UserMenu1()
+            return 0
+        email = input("Enter your email: ")
+        if(email == ""):
+            print("Email cannot be empty")
+            UserMenu1()
+            return 0
+        phone = input("Enter your phone number: ")
+        if(phone == ""):
+            print("Phone number cannot be empty")
+            UserMenu1()
+            return 0
+        dob = input("Enter your date of birth: ")
+        if(dob == ""):
+            print("Date of birth cannot be empty")
+            UserMenu1()
+            return 0
+        wallet = int(input("Enter your wallet balance: "))
+        if(wallet < 0):
+            print("Wallet balance cannot be negative")
+            UserMenu1()
+            return 0
+        password = input("Enter your password: ")
+        if(len(password) < 6 or len(password) > 10):
+            print("Password must be between 6 and 10 characters")
+            UserMenu1()
+            return 0
+        for i in password:
+            if(i.isalpha() == False and i.isdigit() == False):
+                print("Password must contain only alphabets and digits")
+                UserMenu1()
+                return 0
+        Exec_Query("INSERT INTO User (first_name, middle_name, last_name, address, email, phone, dob, wallet, password) values (" + "'" + first_name + "', '" + middle_name + "', '" + last_name + "', '" + address + "', '" + email + "', '" + phone + "', '" + dob + "', " + str(wallet) + ", '" + password + "');")
+        print("Signup successful")
+        UserMenu1()
     elif(x == 2):
-        UserMenu2(userId)
+        user_id = int(input("Enter your user id: "))
+        password = input("Enter your password: ")
+        ret = Exec_Query("select user_id, password from user where user_id = " + str(user_id) + ";", 1)
+        print(ret)
+        if(ret == []):
+            print("Invalid User ID")
+            UserMenu1()
+            return 0
+        if(ret[0][1] == password):
+            print("Login successful")
+            UserMenu2(user_id)
+        else:
+            print("Invalid password")
+            UserMenu1()
+            return 0
     elif(x == 3):
         MainMenu()
     else:
@@ -126,8 +192,9 @@ def UserMenu2(userId):
 def main():
     MainMenu()
 
+if __name__ == "__main__":
+    main()
 '''Stuff that's left:
 confirming purchases
 transactions
-signin/login
 '''
