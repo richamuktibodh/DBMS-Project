@@ -127,9 +127,7 @@ def main():
     MainMenu()
 
 '''Stuff that's left:
-making a password 🤡
 confirming purchases
 transactions
 signin/login
-add seller's id in product
 '''
