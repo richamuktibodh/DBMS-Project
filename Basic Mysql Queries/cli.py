@@ -78,7 +78,7 @@ def UserMenu1():
             print("Phone number cannot be empty")
             UserMenu1()
             return 0
-        dob = input("Enter your date of birth: ")
+        dob = input("Enter your date of birth(YYYY-MM-DD): ")
         if(dob == ""):
             print("Date of birth cannot be empty")
             UserMenu1()
@@ -127,14 +127,14 @@ def UserMenu1():
 #choice 3: view account balance
 #choice 4: add product to cart
 #choice 5: remove product from cart
-#choice 5: view cart
-#choice 6: checkout cart
-#choice 7: Put product up for sale
-#choice 8: Upgrade customer status
-#choice 9: view account details
-#choice 10: update account details
+#choice 6: view cart
+#choice 7: checkout cart
+#choice 8: Put product up for sale
+#choice 9: Upgrade customer status
+#choice 10: view account details
+#choice 11: update account details
 def UserMenu2(userId):
-    print("1. View available products\n"+ "2. View previous transactions\n" + "3. View account balance\n" + "4. Add product to cart\n" + "5. View cart\n" + "6. Checkout cart\n" + "7. Put product up for sale\n" + "8. Upgrade customer status\n" + "9. View account details\n" + "10. Update account details\n" + "11. Logout\n")
+    print("Welcome to the user menu\n" + "Please select an option from the menu below\n" + "1. View available products\n" + "2. View previous transactions\n" + "3. View account balance\n" + "4. Add product to cart\n" + "5. Remove product from cart\n" + "6. View cart\n" + "7. Checkout cart\n" + "8. Put product up for sale\n" + "9. Upgrade customer status\n" + "10. View account details\n" + "11. Update account details\n" + "12. Logout\n")
     PrintLine()
     choice = int(input("Enter your choice: "))
     PrintLine()
