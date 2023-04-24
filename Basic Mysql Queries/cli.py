@@ -1,5 +1,5 @@
 import mysql.connector
-import datetime
+from datetime import date
 import time
 
 def Exec_Query(query, mode = 0):
@@ -74,8 +74,13 @@ def UserMenu1():
             UserMenu1()
             return 0
         phone = input("Enter your phone number: ")
+        ret = Exec_Query("select phone from user where phone = '" + phone + "';", 1)
         if(phone == ""):
             print("Phone number cannot be empty")
+            UserMenu1()
+            return 0
+        elif ret != []:
+            print("Phone number already exists")
             UserMenu1()
             return 0
         dob = input("Enter your date of birth(YYYY-MM-DD): ")
@@ -100,6 +105,10 @@ def UserMenu1():
                 return 0
         Exec_Query("INSERT INTO User (first_name, middle_name, last_name, address, email, phone, dob, wallet, password) values (" + "'" + first_name + "', '" + middle_name + "', '" + last_name + "', '" + address + "', '" + email + "', '" + phone + "', '" + dob + "', " + str(wallet) + ", '" + password + "');")
         print("Signup successful")
+        print("Your user ID is: ", end = " ")
+        ret = Exec_Query("select user_id from user where phone = '" + phone + "';", 1)
+        print(ret[0][0])
+        time.sleep(2)
         UserMenu1()
     elif(x == 2):
         user_id = int(input("Enter your user id: "))
@@ -133,8 +142,9 @@ def UserMenu1():
 #choice 9: Upgrade customer status
 #choice 10: view account details
 #choice 11: update account details
+#choice 12: Add money to wallet
 def UserMenu2(userId):
-    print("Welcome to the user menu\n" + "Please select an option from the menu below\n" + "1. View available products\n" + "2. View previous transactions\n" + "3. View account balance\n" + "4. Add product to cart\n" + "5. Remove product from cart\n" + "6. View cart\n" + "7. Checkout cart\n" + "8. Put product up for sale\n" + "9. Upgrade customer status\n" + "10. View account details\n" + "11. Update account details\n" + "12. Logout\n")
+    print("Welcome to the user menu\n" + "Please select an option from the menu below\n" + "1. View available products\n" + "2. View previous transactions\n" + "3. View account balance\n" + "4. Add product to cart\n" + "5. Remove product from cart\n" + "6. View cart\n" + "7. Checkout cart\n" + "8. Put product up for sale\n" + "9. Upgrade customer status\n" + "10. View account details\n" + "11. Update account details\n" + "12. Add money to wallet\n" + "13. Logout\n")
     PrintLine()
     choice = int(input("Enter your choice: "))
     PrintLine()
@@ -158,7 +168,6 @@ def UserMenu2(userId):
             return 0
         product_id = int(input("Enter the product id: "))
         ret = Exec_Query("select status_id from product where product_id = " + str(product_id) + ";", 1)
-        print(ret)
         if(ret[0][0] == '1'):
             Exec_Query("update product set status_id = 3, user_id = " + str(userId) + " where product_id = " + str(product_id) + ";")
             print("Successfully added to cart")
@@ -188,7 +197,20 @@ def UserMenu2(userId):
         PrintLine()
         Exec_Query("select product_id, name, price from product where status_id = 3 AND user_id = " + str(userId) + ";")
     elif(choice == 7):
-        main.run_Query(query)
+        ret = Exec_Query("select wallet from user where user_id = " + str(userId) + ";", 1)
+        ret2 = Exec_Query("select sum(price) from product where status_id = 3 AND user_id = " + str(userId) + ";", 1)
+        if(ret2 == []):
+            print("Cart is empty")
+        elif(ret[0][0] < ret2[0][0]):
+            print("You do not have enough balance to checkout")
+        else:
+            ret = Exec_Query("select price, seller_id from product where status_id = 3 AND user_id = " + str(userId) + ";", 1)
+            for i in ret:
+                Exec_Query("update user set wallet = wallet + " + str(i[0]) + " where user_id = " + str(i[1]) + ";")
+            Exec_Query("update product set status_id = 2 where status_id = 3 AND user_id = " + str(userId) + ";")
+            Exec_Query("update user set wallet = wallet - " + str(ret2[0][0]) + " where user_id = " + str(userId) + ";")
+            Exec_Query("INSERT INTO payments (payment_date, amount, sellbuy, user_id) values ( '20" + date.today().strftime("%y-%m-%d")  + "', " + str(ret2[0][0]) + ", 0, " + str(userId) + ");")
+            print("Successfully checked out")
     elif(choice == 8):
         price = int(input("Enter the price of the product: "))
         name = input("Enter the name of the product: ")
@@ -205,7 +227,8 @@ def UserMenu2(userId):
         elif(ret[0][0] < 1000):
             print("You do not have enough balance to upgrade to prime user")
         else:
-            Exec_Query("update user set prime_user = 1 where user_id = 1;")
+            Exec_Query("update user set prime_user = 1 where user_id = " + str(userId) + ";")
+            Exec_Query("update user set wallet = wallet - 1000 where user_id = " + str(userId) + ";")
             print("You are now a prime user")
     elif(choice == 10):
         print("UserID | First_Name | Middle_Name | Last_Name | Address | Email | Phone | DOB | Prime_User | Wallet |")
@@ -219,6 +242,9 @@ def UserMenu2(userId):
         wallet = input("Enter your wallet balance: ")
         Exec_Query("update user set first_name = '" + first_name + "', email = '" + email + "', phone = '" + str(phone) + "', address = '" + address + "', wallet = '" + wallet + "' where user_id = " + str(userId) + ";")
     elif(choice == 12):
+        amnt = int(input("Enter the amount to be added: "))
+        Exec_Query("update user set wallet = wallet + " + str(amnt) + " where user_id = " + str(userId) + ";")
+    elif(choice == 13):
         MainMenu()
     else:
         print("Invalid choice")
@@ -232,6 +258,5 @@ def main():
 if __name__ == "__main__":
     main()
 '''Stuff that's left:
-confirming purchases
-transactions
+KHALAS
 '''

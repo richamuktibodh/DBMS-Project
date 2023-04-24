@@ -18,7 +18,7 @@ CREATE TABLE User(
     address varchar(100) NOT NULL,
     email varchar(50) NOT NULL,
     phone long NOT NULL,
-    dob DATETIME NOT NULL,
+    dob DATE NOT NULL,
     prime_user boolean NOT NULL DEFAULT FALSE,
     wallet int(20) NOT NULL,
     password varchar(20) NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE StatusMapping(
 
 CREATE TABLE Payments(
     Payment_ID int(8) NOT NULL AUTO_INCREMENT,
-    Payment_Date DATETIME NOT NULL,
+    Payment_Date DATE NOT NULL,
     amount int(8) NOT NULL,
     user_id int(8) NOT NULL,
     sellbuy int(2) NOT NULL,
