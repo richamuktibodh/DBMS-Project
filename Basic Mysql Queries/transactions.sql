@@ -8,8 +8,8 @@ COMMIT;
 
 -- transaction to add item into products # 2
 START TRANSACTION;
-SELECT * FROM product;
 INSERT INTO product (price, name, description, category_id, user_id, status_id) VALUES (55,'product 3', 'ggg',3, 4,2);
+SELECT * FROM product;
 COMMIT;
 
 
