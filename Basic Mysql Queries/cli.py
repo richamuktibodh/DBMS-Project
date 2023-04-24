@@ -1,5 +1,6 @@
 import mysql.connector
 import datetime
+import time
 
 def Exec_Query(query, mode = 0):
     cnx = mysql.connector.connect(user='root',password = 'tiger', database='final')
@@ -34,9 +35,9 @@ def MainMenu():
     PrintLine()
     choice = int(input("Enter your choice: "))
     if(choice == 1):
-        print("       Name         |      Category      |        Price       |")
+        print("     Product ID     |       Name         |      Category      |        Price       |")
         PrintLine()
-        Exec_Query("select product.name, cat.name, product.price from product join category cat on product.category_id = cat.category_id where status_id = 1;")
+        Exec_Query("select product.product_id, product.name, cat.name, product.price from product join category cat on product.category_id = cat.category_id where status_id = 1 order by product.price;")
         MainMenu()
     elif(choice == 2):
         UserMenu1()
@@ -104,7 +105,6 @@ def UserMenu1():
         user_id = int(input("Enter your user id: "))
         password = input("Enter your password: ")
         ret = Exec_Query("select user_id, password from user where user_id = " + str(user_id) + ";", 1)
-        print(ret)
         if(ret == []):
             print("Invalid User ID")
             UserMenu1()
@@ -126,6 +126,7 @@ def UserMenu1():
 #choice 2: view previous transactions
 #choice 3: view account balance
 #choice 4: add product to cart
+#choice 5: remove product from cart
 #choice 5: view cart
 #choice 6: checkout cart
 #choice 7: Put product up for sale
@@ -138,9 +139,9 @@ def UserMenu2(userId):
     choice = int(input("Enter your choice: "))
     PrintLine()
     if(choice == 1):
-        print("       Name         |      Category      |        Price       |")
+        print("     Product ID     |       Name         |      Category      |        Price       |")
         PrintLine()
-        Exec_Query("select product.name, cat.name, product.price from product join category cat on product.category_id = cat.category_id where status_id = 1;")
+        Exec_Query("select product.product_id, product.name, cat.name, product.price from product join category cat on product.category_id = cat.category_id where status_id = 1 order by product.price;")
     elif(choice == 2):
         print("     Payment_id     |    Payment_date    |       Amount       |     Sell/Buy       |")
         PrintLine()
@@ -150,14 +151,45 @@ def UserMenu2(userId):
         PrintLine()
         Exec_Query("select wallet from user where user_id = " + str(userId) + ";")
     elif(choice == 4):
-        PrintLine()    
+        ret = Exec_Query("select count(product_id) from product where status_id = 3 AND user_id = " + str(userId) + ";", 1)
+        if(ret[0][0] >= 4):
+            print("You cannot add more than 4 products to cart")
+            UserMenu2(userId)
+            return 0
+        product_id = int(input("Enter the product id: "))
+        ret = Exec_Query("select status_id from product where product_id = " + str(product_id) + ";", 1)
+        print(ret)
+        if(ret[0][0] == '1'):
+            Exec_Query("update product set status_id = 3, user_id = " + str(userId) + " where product_id = " + str(product_id) + ";")
+            print("Successfully added to cart")
+        else:
+            print("Product is not Available")
     elif(choice == 5):
+        ret = Exec_Query("select product_id, name, price from product where status_id = 3 AND user_id = " + str(userId) + ";", 1)
+        if(ret == []):
+            print("Cart is empty")
         print("     Product_id     |        name        |       Price        |")
         PrintLine()
         Exec_Query("select product_id, name, price from product where status_id = 3 AND user_id = " + str(userId) + ";")
+
+        product_id = int(input("Enter the product id: "))
+        ok = 0
+        for i in ret:
+            if(i[0] == product_id):
+                ok = 1
+                break
+        if(ok == 0):
+            print("Product is not in cart")
+        else:
+            Exec_Query("update product set status_id = 1, user_id = NULL where product_id = " + str(product_id) + ";")
+            print("Successfully removed from cart")
     elif(choice == 6):
-        main.run_Query(query)
+        print("     Product_id     |        name        |       Price        |")
+        PrintLine()
+        Exec_Query("select product_id, name, price from product where status_id = 3 AND user_id = " + str(userId) + ";")
     elif(choice == 7):
+        main.run_Query(query)
+    elif(choice == 8):
         price = int(input("Enter the price of the product: "))
         name = input("Enter the name of the product: ")
         description = input("Enter the description of the product: ")
@@ -166,27 +198,32 @@ def UserMenu2(userId):
         category_id = int(input("Enter the category id: "))
         Exec_Query("INSERT INTO Product (price, name, description, category_id, user_id, status_id) values (" + str(price) + ", '" + name + "', '" + description + "', " + str(category_id) + ", " + str(userId) + ", 1);")
         print("Product added successfully")
-    elif(choice == 8):
-        main.run_Query(query)
     elif(choice == 9):
+        ret = Exec_Query("select wallet, prime_user from user where user_id = 1;", 1)
+        if(ret[0][1] == 1):
+            print("You are already a prime user")
+        elif(ret[0][0] < 1000):
+            print("You do not have enough balance to upgrade to prime user")
+        else:
+            Exec_Query("update user set prime_user = 1 where user_id = 1;")
+            print("You are now a prime user")
+    elif(choice == 10):
         print("UserID | First_Name | Middle_Name | Last_Name | Address | Email | Phone | DOB | Prime_User | Wallet |")
         PrintLine()
-        Exec_Query("select * from user where user_id = 1;")
-
-    elif(choice == 10):
+        Exec_Query("select user_id, first_name, middle_name, last_name, address, email, phone, dob, prime_user, wallet from user where user_id = 1;")
+    elif(choice == 11):
         first_name = input("Enter your first name: ")
         email = input("Enter your email: ")
         phone = int(input("Enter your phone number: "))
         address = input("Enter your address: ")
         wallet = input("Enter your wallet balance: ")
         Exec_Query("update user set first_name = '" + first_name + "', email = '" + email + "', phone = '" + str(phone) + "', address = '" + address + "', wallet = '" + wallet + "' where user_id = " + str(userId) + ";")
-    elif(choice == 11):
+    elif(choice == 12):
         MainMenu()
     else:
         print("Invalid choice")
         PrintLine()
-        UserMenu2(userId)
-        return 0
+    time.sleep(2)
     UserMenu2(userId)
 
 def main():
